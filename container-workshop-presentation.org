@@ -1,10 +1,47 @@
 :REVEAL_PROPERTIES:
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+REVEAL_REVEAL_JS_VERSION: 4
+#+REVEAL_THEME: white
+#+OPTIONS: timestamp:nil toc:nil num:nil
 :END:
 
 #+TITLE: An Introduction to Docker For Banner Admins
-#+AUTHOR: Dan Boitnott <boitnott@sigcorp.com>
+#+AUTHOR: Dan Boitnott
 
 * Who Am I?
 Let's try some Docker stuff!
+
+* Docker Overview
+
+#+BEGIN_NOTES
+- This workshop will use "Docker" and "Container" somewhat interchangeably but
+  there are other container systems.
+#+END_NOTES
+
+#+begin_quote
+Docker is an open platform for developing, shipping, and running applications.
+Docker enables you to separate your applications from your infrastructure so you
+can deliver software quickly.
+#+end_quote
+
+** Typical Software Stack
+
+#+BEGIN_NOTES
+- Co-location can lead to conflict but dedicated servers lead to waste.
+#+END_NOTES
+
+[[./images/SoftwareStackTypical.svg]]
+
+** Docker Container
+
+[[./images/DockerContainerStack.svg]]
+
+** Deployment Architecture
+
+#+BEGIN_NOTES
+- Containers can be added/removed/updated without regard to underlying hosts.
+- Hosts can be added/removed/updated with little/no disruption to services.
+- Server capacity can be dynamically allocated to meet the exact need.
+#+END_NOTES
+
+[[./images/DeploymentArch.svg]]
