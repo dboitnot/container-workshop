@@ -38,13 +38,11 @@ docker ps
 Now run our container:
 
 #+begin_src bash
-docker run -t alpine /bin/sh -c 'echo Hello world!'
+docker run alpine /bin/sh -c 'echo Hello world!'
 #+end_src
 
 Discuss:
 - Pulling from Docker Hub
-- The "-t" flag - Attaches the process to the terminal. Without it the process
-  would run "in the background."
 - Alpine Linux is a very small Linux distribution and well suited to building
   containers as it lacks the extras which aren't needed anyway.
 
@@ -85,6 +83,9 @@ docker run -ti --rm alpine /bin/sh
 #+end_src
 
 Demonstrate the interactive shell, then discuss:
+- The "-t" flag - Attaches a virtual terminal to the process. Some applications,
+  like the shell, will behave differently if they're attached to a terminal
+  device.
 - The "-i" flag which made the terminal "interactive."
 - The "--rm" flag which deletes the image immediately after it's main process
   terminates.
