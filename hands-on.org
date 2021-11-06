@@ -269,7 +269,7 @@ curl http://localhost:8080
 Discuss:
 - Our hash ID changed because we made a change to the base image.
 - We didn't create a copy of the base image but instead added a layer on top.
-- The =--name= flag specifies a name for the service rather than using the
+- The "--name" flag specifies a name for the service rather than using the
   randomly generated one.
 - In a production environment naming is generally handled by the orchestration
   system, but it testing it's sometimes useful to manually specify a name.
@@ -287,6 +287,6 @@ docker kill ex02
 #+end_src
 
 Discuss:
-- Because we specified the ==--rm= flag, the container will be deleted for us.
+- Because we specified the "--rm" flag, the container will be deleted for us.
 
 *Questions?*
