@@ -1,15 +1,21 @@
 :REVEAL_PROPERTIES:
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+REVEAL_REVEAL_JS_VERSION: 4
-#+REVEAL_THEME: white
-#+OPTIONS: timestamp:nil toc:nil num:nil
+#+REVEAL_THEME: css/theme/source/sig.css
+#+OPTIONS: timestamp:nil toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_TITLE_SLIDE:
 :END:
 
 #+TITLE: An Introduction to Docker For Banner Admins
 #+AUTHOR: Dan Boitnott
 
-* Who Am I?
-Let's try some Docker stuff!
+* An Introduction to Docker For Banner Admins
+:PROPERTIES:
+:reveal_background: #147BD1
+:END:
+
+#+ATTR_HTML: :width 20% :height 20% :align center
+[[./images/sig-logo-1-sec-white.png]]
 
 * Docker Overview
 
@@ -19,20 +25,29 @@ Let's try some Docker stuff!
 #+END_NOTES
 
 #+begin_quote
-Docker is an open platform for developing, shipping, and running applications.
+"Docker is an open platform for developing, shipping, and running applications.
 Docker enables you to separate your applications from your infrastructure so you
-can deliver software quickly.
+can deliver software quickly."
 #+end_quote
 
 ** Typical Software Stack
 
 #+BEGIN_NOTES
 - Co-location can lead to conflict but dedicated servers lead to waste.
+- Updates often require coordination and downtime.
+- There is often no easy path to revert to known-good state.
 #+END_NOTES
 
 [[./images/SoftwareStackTypical.svg]]
 
 ** Docker Container
+
+#+BEGIN_NOTES
+- Containers bundle the entire stack down to the distribution and treat them as
+  a single unit.
+- Updates can be deployed without downtime.
+- Reversion to known-good is trivial.
+#+END_NOTES
 
 [[./images/DockerContainerStack.svg]]
 
@@ -45,3 +60,68 @@ can deliver software quickly.
 #+END_NOTES
 
 [[./images/DeploymentArch.svg]]
+
+** Advantages of Containerization
+
+#+BEGIN_NOTES
+- Improved admin is the real cost savings. The big savings is in hours as much as compute.
+#+END_NOTES
+
+#+ATTR_REVEAL: :frag (appear)
+- Improved administration
+- Efficient resource utilization
+- Failure Detection & Recovery
+- Dynamic Sizing
+
+** What Docker Is:
+
+#+ATTR_REVEAL: :frag (appear)
+- Free and open-source
+- Mature and well documented
+- An ideal fit for Banner 9
+
+** What Docker Is Not:
+
+#+ATTR_REVEAL: :frag (appear)
+- _Directly_ supported by Ellucian
+- A solution to all^{*} life's problems
+- The only containerization engine
+
+* Terminology
+
+** Image
+
+#+ATTR_REVEAL: :frag (appear)
+- A filesystem containing the entire software stack for a given service.
+- Is unchanging and identified to by its hash value.
+- Can be referred to using tags.
+- Is composed of _layers_.
+- Can be pulled from a _registry_.
+
+** Layer
+
+#+ATTR_REVEAL: :frag (appear)
+- A set of changes to an underlying layer.
+- Produced by steps in the _Dockerfile_.
+- Cached locally to improve build speed and reduce space.
+
+** Registry
+
+#+ATTR_REVEAL: :frag (appear)
+- Provides images and their layers over a network.
+- May be public or private.
+
+** Container
+
+#+ATTR_REVEAL: :frag (appear)
+- A runtime instance of an _image_.
+- Includes a filesystem, execution environment, and (usually) one running
+  process.
+- May be stopped, started, copied, and interacted with.
+
+** Dockerfile
+
+#+ATTR_REVEAL: :frag (appear)
+- A series of instructions starting from a base image and producing an _image_.
+- Each instruction produces a single layer with the final layer being the image
+  itself.
