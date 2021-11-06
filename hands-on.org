@@ -1,0 +1,270 @@
+#+TITLE: Containerization Workshop - Hands-On Exercises
+
+* Introduction
+
+These instructions are written to work in an AWS Cloud9 environment but they
+should work most environments with Bash shell.
+
+** Cloud9 Prep
+
+1. Update workshop stack configuration with a new password salt.
+2. Launch workshop stack with the appropriate number of users.
+3. Distribute credentials to attendees.
+4. Create a short-URL redirect to the appropriate login page.
+5. Update presentation to display redirect URL.
+
+** Getting Logged Into Cloud9
+
+1. Log into AWS using provided credentials. Wait for all attendees to report
+   successful login.
+2. Instructor switch from presentation to demonstration browser window.
+3. In the upper-right corner of the page, check that the correct AWS region is
+   selected.
+4. Using the service search bar, navigate to Cloud9.
+5. If necessary, expand the navbar at the left of the page and select "Your
+   environments."
+6. Click the "Open IDE" button. Confirm that all attendees have successfully
+   entered their Cloud9 environment.
+7. Close unnecessary tabs and launch a terminal.
+
+* Hello World
+
+First, confirm Docker is available:
+
+#+begin_src bash
+docker ps
+#+end_src
+
+Now run our container:
+
+#+begin_src bash
+docker run -t alpine /bin/sh -c 'echo Hello world!'
+#+end_src
+
+Discuss:
+- Pulling from Docker Hub
+- The "-t" flag - Attaches the process to the terminal. Without it the process
+  would run "in the background."
+
+Now look at the residue of our last command:
+
+#+begin_src bash
+docker ps      # Note there are no running containers.
+docker ps -a   # Note the alpine container
+docker images  # Note the alpine image
+#+end_src
+
+Discuss:
+- Container still exists along with any changes made within its filesystem.
+- The randomly generated name given to the container.
+- In a development environment, cleanup may occasionally be necessary.
+- In a production environment with orchestration, cleanup will generally be
+  automatic.
+- Image cleanup may also be occasionally necessary.
+
+Now clean up:
+
+#+begin_src bash
+docker rm <container name>
+docker ps -a
+#+end_src
+
+* Interactive Containers
+
+Containers can be used for one-off jobs as in the "Hello World" example, long
+running "daemon" processes, as well as interactive processes. At SIG it is
+common practice to build client-specific developer environments using
+containers.
+
+#+begin_src bash
+docker run -ti --rm alpine /bin/sh
+#+end_src
+
+Demonstrate the interactive shell, then discuss:
+- The "-i" flag which made the terminal "interactive."
+- The "--rm" flag which deletes the image immediately after it's main process
+  terminates.
+
+* Running a Web Service
+
+Launch an HTTPD server:
+
+#+begin_src bash
+docker run -d --rm httpd
+docker ps
+#+end_src
+
+Discuss:
+- Official images and the importance of using only trusted sources.
+- The "-d" flag detaches the process from the terminal to run "in the
+  background"
+- The output of =docker run= is the full hash ID of the container and can be
+  used by other processes to get a "handle" on the launched container.
+- Port =80/tcp= is listed in the port list but is not actually exposed.
+- Requiring ports to be explicitly mapped prevents accidental exposure.
+
+Container logs can be accessed using the =logs= subcommand:
+
+#+begin_src bash
+docker logs <container>
+docker logs -f <container>
+#+end_src
+
+Discuss:
+- Docker logs capture the STDOUT and STDERR streams of the primary process.
+- In a production environment, the orchestration system will provide a mechanism
+  to monitor logs.
+
+A second process can be launched within the running container:
+
+#+begin_src bash
+docker exec -ti <container> /bin/bash
+#+end_src
+
+Discuss:
+- This can be immensely useful for troubleshooting as well as development.
+- This feature should not be used as part of regular deployment.
+- Containers work best when there is a single primary process running in the
+  "foreground" of the container.
+- Secondary processes running in the "background" of the container, such as
+  log-tailing, should be children of the primary process and kept to a minimum.
+
+Let's expose the HTTP port:
+
+#+begin_src bash
+docker kill <container>
+docker run -d --rm -p 8080:80 httpd
+curl http://localhost:8080
+#+end_src
+
+Discuss:
+- A Docker image will generally list the ports it will open but they are not
+  reachable outside the container until they are mapped to an interface on the
+  host machine.
+- In a production environment, port mapping is usually random. This increases
+  security and prevents conflicts.
+- While it's possible to manage a production Docker environment without
+  load-balancing, it's cumbersome and obviates many of the advantage of
+  containerization.
+
+* Your First Dockerfile
+
+1. Using the editor, create a directory named =ex01=
+2. Create a file named =Dockerfile= within this new directory.
+
+Start with the minimum:
+
+#+begin_src Dockerfile
+FROM alpine
+#+end_src
+
+#+begin_src bash
+cd ex01
+docker build .
+docker images
+#+end_src
+
+Discuss:
+- The hash returned by the successful build and how it matches the
+  =alpine:latest= image. This is because there are no differences and the hash
+  IDs are content-based.
+
+Hashes aren't very readable:
+
+#+begin_src bash
+docker build -t first .
+docker images
+#+end_src
+
+Discuss:
+- The "-t" flag adds a tag to the built image.
+- Tags actually have two parts in the listing, the "Repository" and
+  the "Tag" and when the second part isn't specified, =latest= is default.
+- The "repository" indicates *what* the image is and, if it's from Docker Hub,
+  *who* the image is from.
+- The "tag" indicates version information and sometimes the "flavor" of the image.
+- If on Cloud9, you'll probably see a few Lambda-related images. Note how their
+  tags indicate both version and "flavor."
+
+Let's give our image another tag:
+
+#+begin_src bash
+docker tag first:latest first:0.1
+docker images
+#+end_src
+
+Discuss:
+- We now see both =0.1= and =latest= tags for our image and all of their hashes
+  still match the alpine hash.
+
+* A More Useful Dockerfile
+
+Create =ex02/Dockerfile=:
+
+#+begin_src Dockerfile
+FROM httpd:latest
+#+end_src
+
+Let's take a look around in our image to see how we can enhance it:
+
+#+begin_src bash
+cd ../ex02
+docker build -t ex:02 .
+docker run -ti --rm ex:02 /bin/bash
+#+end_src
+
+Discuss:
+- For convenience, we'll be tagging our exercise images =ex=
+- During development it's common to launch a shell within a container to look
+  around and test things out.
+
+Let's have a look around in the basic HTTPD image and see what we'd need to
+change:
+
+#+begin_src bash
+pwd
+ls -l
+ls htdocs
+cat htdocs/index.html
+#+end_src
+
+Discuss:
+- In the official image, HTTPD is deployed at =/usr/local/apache2= and it's
+  web-root is =/usr/local/apache2/htdocs=.
+
+Let's change the index page. Create =ex02/index.html=:
+
+#+begin_src html
+This is Dan's new page.
+#+end_src
+
+Now we can add the file to our image. Edit =Dockerfile=:
+
+#+begin_src Dockerfile
+FROM httpd:latest
+
+COPY index.html /usr/local/apache2/htdocs
+#+end_src
+
+Let's rebuild and launch our web server:
+
+#+begin_src bash
+docker build -t ex:02 .
+docker run -d --rm -p 8080:80 --name ex02 ex:02
+docker ps
+curl http://localhost:8080
+#+end_src
+
+Discuss:
+- Our hash ID changed because we made a change to the base image.
+- We didn't create a copy of the base image but instead added a layer on top.
+- The =--name= flag specifies a name for the service rather than using the
+  randomly generated one.
+- In a production environment naming is generally handled by the orchestration
+  system, but it testing it's sometimes useful to manually specify a name.
+- The "Command Name" listed for our container is =httpd-foreground=. This is the
+  "entry point" for the image and specifies the command to run when one is not
+  specified.
+- Most images have an entry point which launches their service.
+- Because we didn't specify one in our Dockerfile, it was inherited from the
+  base image.

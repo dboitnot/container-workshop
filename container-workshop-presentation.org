@@ -125,3 +125,11 @@ can deliver software quickly."
 - A series of instructions starting from a base image and producing an _image_.
 - Each instruction produces a single layer with the final layer being the image
   itself.
+
+** Tag
+
+#+ATTR_REVEAL: :frag (appear)
+- A human-readable name assigned to a container or image.
+- Images may have multiple tags.
+- Tags typically contain version information and may distinguish variants of a
+  given image.
