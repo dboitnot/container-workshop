@@ -45,6 +45,8 @@ Discuss:
 - Pulling from Docker Hub
 - The "-t" flag - Attaches the process to the terminal. Without it the process
   would run "in the background."
+- Alpine Linux is a very small Linux distribution and well suited to building
+  containers as it lacks the extras which aren't needed anyway.
 
 Now look at the residue of our last command:
 
@@ -69,6 +71,8 @@ docker rm <container name>
 docker ps -a
 #+end_src
 
+*Questions?*
+
 * Interactive Containers
 
 Containers can be used for one-off jobs as in the "Hello World" example, long
@@ -84,6 +88,8 @@ Demonstrate the interactive shell, then discuss:
 - The "-i" flag which made the terminal "interactive."
 - The "--rm" flag which deletes the image immediately after it's main process
   terminates.
+
+*Questions?*
 
 * Running a Web Service
 
@@ -147,6 +153,8 @@ Discuss:
   load-balancing, it's cumbersome and obviates many of the advantage of
   containerization.
 
+*Questions?*
+
 * Your First Dockerfile
 
 1. Using the editor, create a directory named =ex01=
@@ -196,6 +204,8 @@ docker images
 Discuss:
 - We now see both =0.1= and =latest= tags for our image and all of their hashes
   still match the alpine hash.
+
+*Questions?*
 
 * A More Useful Dockerfile
 
@@ -268,3 +278,14 @@ Discuss:
 - Most images have an entry point which launches their service.
 - Because we didn't specify one in our Dockerfile, it was inherited from the
   base image.
+
+Clean up:
+
+#+begin_src bash
+docker kill ex02
+#+end_src
+
+Discuss:
+- Because we specified the ==--rm= flag, the container will be deleted for us.
+
+*Questions?*
