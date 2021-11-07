@@ -133,3 +133,45 @@ can deliver software quickly."
 - Images may have multiple tags.
 - Tags typically contain version information and may distinguish variants of a
   given image.
+
+* Hands-On Exercises
+
+* Container Orchestration
+
+** Orchestration Platforms
+
+#+BEGIN_NOTES
+Why ECS over EKS (Managed k8s)?
+- Cost - EKS adds an hourly charge per cluster.
+- ELB-integration - Significantly more complicated on EKS
+- EFS-integration - More complicated on EKS
+
+In a cloud environment, it's strongly recommended to use a managed platform
+rather than self-managing.
+#+END_NOTES
+
+#+REVEAL_HTML: <div style="white-space:nowrap">
+|                   | *On-Prem* | *AWS* | *OCI* | *Azure* |
+|                   |    <c>    |  <c>  |  <c>  |   <c>   |
+|-------------------+-----------+-------+-------+---------|
+| ECS               |           |  🌟   |       |         |
+| ECS+Fargate       |           |   ✓   |       |         |
+| Cloud-Managed k8s |           |   ✓   |  🌟   |   🌟    |
+| Self-Managed k8s  |    🌟     |   ✓   |   ✓   |    ✓    |
+#+REVEAL_HTML: </div>
+
+- 🌟 Recommended
+- ✓ Available
+
+** Deployment Essentials
+
+#+ATTR_REVEAL: :frag (appear)
+- Cluster Management
+- Image Registry
+- Container Placement & Auto-Scaling
+- Container Lifecycle Management
+- Persistent Storage
+- Log Management
+- Secrets Management
+- Container Metrics
+- Load-Balancer Integration

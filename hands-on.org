@@ -290,3 +290,72 @@ Discuss:
 - Because we specified the "--rm" flag, the container will be deleted for us.
 
 *Questions?*
+
+* Persistent Storage
+
+Most applications will need to maintain some kind of state. For most Banner
+applications, this state will be stored in the Banner database. Certain
+applications may also need access to things like image stores or other
+persistent filesystems. For this, Docker provides the concept of "volumes."
+
+#+begin_src bash
+docker run -d --rm -p 8080:80 -v web:/usr/local/apache2/htdocs --name web httpd
+curl http://localhost:8080
+docker exec -ti web /bin/bash
+
+# Within the container
+echo "This has changed" >$HTTPD_PREFIX/htdocs/index.html
+exit
+
+# Outside the container
+curl http://localhost:8080
+
+docker kill web
+docker run -d --rm -p 8080:80 -v web:/usr/local/apache2/htdocs --name web httpd
+curl http://localhost:8080
+#+end_src
+
+Discuss:
+- The "-v" flag attaches a "volume" to the container.
+- Because the first part of the volume spec, =web=, was not an absolute path,
+  Docker created a "named volume."
+- Named volumes are not generally used in production because they are isolated
+  to a single node.
+- When the second container was started, the change we made to =index.html=
+  persisted.
+- The container path of the volume MUST be absolute.
+
+Let's clean up:
+
+#+begin_src bash
+docker kill web
+docker volume ls
+docker volume rm web
+#+end_src
+
+Now we'll map a directory as a volume instead:
+
+#+begin_src bash
+mkdir -p ~/environment/web
+docker run -d --rm -p 8080:80 -v ~/environment/web:/usr/local/apache2/htdocs --name web httpd
+curl http://localhost:8080
+  # Note we get an empty index listing instead of a web page.
+
+echo "This is from a folder" >~/environment/web/index.html
+#+end_src
+
+Discuss:
+- The web files can be edited with the Cloud9 editor and updates are available
+  immediately in the container.
+- SIG often takes advantage of this ability to provide project-specific
+  development environments which are consistent across consultant workstations.
+- This kind of mapping is similar to what's done in production except that the
+  source directory will generally be on some sort of SAN.
+
+Clean Up:
+
+#+begin_src bash
+docker kill web
+#+end_src
+
+*Questions?*
