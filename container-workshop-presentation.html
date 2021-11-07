@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>An Introduction to Docker For Banner Admins</title>
+<meta name="author" content="Dan Boitnott"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="css/theme/source/sig.css" id="theme"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<section>
+<section id="slide-orgd35a4af" data-background="#147BD1">
+<h2 id="orgd35a4af">An Introduction to Docker For Banner Admins</h2>
+
+<div id="org5738803" class="figure">
+<p><img src="./images/sig-logo-1-sec-white.png" alt="sig-logo-1-sec-white.png" width="20%" height="20%" align="center" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org19a51e0">
+<h2 id="org19a51e0">Docker Overview</h2>
+<aside class="notes">
+<ul>
+<li>This workshop will use &ldquo;Docker&rdquo; and &ldquo;Container&rdquo; somewhat interchangeably but
+there are other container systems.</li>
+
+</ul>
+
+</aside>
+
+<blockquote>
+<p>
+&ldquo;Docker is an open platform for developing, shipping, and running applications.
+Docker enables you to separate your applications from your infrastructure so you
+can deliver software quickly.&rdquo;
+</p>
+</blockquote>
+
+</section>
+<section id="slide-org954885d">
+<h3 id="org954885d">Typical Software Stack</h3>
+<aside class="notes">
+<ul>
+<li>Co-location can lead to conflict but dedicated servers lead to waste.</li>
+<li>Updates often require coordination and downtime.</li>
+<li>There is often no easy path to revert to known-good state.</li>
+
+</ul>
+
+</aside>
+
+
+<div id="org8444dd9" class="figure">
+<p><img src="./images/SoftwareStackTypical.svg" alt="SoftwareStackTypical.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-org5720be8">
+<h3 id="org5720be8">Docker Container</h3>
+<aside class="notes">
+<ul>
+<li>Containers bundle the entire stack down to the distribution and treat them as
+a single unit.</li>
+<li>Updates can be deployed without downtime.</li>
+<li>Reversion to known-good is trivial.</li>
+
+</ul>
+
+</aside>
+
+
+<div id="orge168e67" class="figure">
+<p><img src="./images/DockerContainerStack.svg" alt="DockerContainerStack.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-org12df592">
+<h3 id="org12df592">Deployment Architecture</h3>
+<aside class="notes">
+<ul>
+<li>Containers can be added/removed/updated without regard to underlying hosts.</li>
+<li>Hosts can be added/removed/updated with little/no disruption to services.</li>
+<li>Server capacity can be dynamically allocated to meet the exact need.</li>
+
+</ul>
+
+</aside>
+
+
+<div id="orgf6c5754" class="figure">
+<p><img src="./images/DeploymentArch.svg" alt="DeploymentArch.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-org76d5387">
+<h3 id="org76d5387">Advantages of Containerization</h3>
+<aside class="notes">
+<ul>
+<li>Improved admin is the real cost savings. The big savings is in hours as much as compute.</li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">Improved administration</li>
+<li class="fragment appear">Efficient resource utilization</li>
+<li class="fragment appear">Failure Detection &amp; Recovery</li>
+<li class="fragment appear">Dynamic Sizing</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf47eaee">
+<h3 id="orgf47eaee">What Docker Is:</h3>
+<ul>
+<li class="fragment appear">Free and open-source</li>
+<li class="fragment appear">Mature and well documented</li>
+<li class="fragment appear">An ideal fit for Banner 9</li>
+
+</ul>
+
+</section>
+<section id="slide-org406b6d6">
+<h3 id="org406b6d6">What Docker Is Not:</h3>
+<ul>
+<li class="fragment appear"><span class="underline">Directly</span> supported by Ellucian</li>
+<li class="fragment appear">A solution to all<sup>*</sup> life&rsquo;s problems</li>
+<li class="fragment appear">The only containerization engine</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org1836305">
+<h2 id="org1836305">Terminology</h2>
+<div class="outline-text-2" id="text-org1836305">
+</div>
+</section>
+<section id="slide-orgd085279">
+<h3 id="orgd085279">Image</h3>
+<ul>
+<li class="fragment appear">A filesystem containing the entire software stack for a given service.</li>
+<li class="fragment appear">Is unchanging and identified to by its hash value.</li>
+<li class="fragment appear">Can be referred to using tags.</li>
+<li class="fragment appear">Is composed of <span class="underline">layers</span>.</li>
+<li class="fragment appear">Can be pulled from a <span class="underline">registry</span>.</li>
+
+</ul>
+
+</section>
+<section id="slide-orge038149">
+<h3 id="orge038149">Layer</h3>
+<ul>
+<li class="fragment appear">A set of changes to an underlying layer.</li>
+<li class="fragment appear">Produced by steps in the <span class="underline">Dockerfile</span>.</li>
+<li class="fragment appear">Cached locally to improve build speed and reduce space.</li>
+
+</ul>
+
+</section>
+<section id="slide-org7c28c1c">
+<h3 id="org7c28c1c">Registry</h3>
+<ul>
+<li class="fragment appear">Provides images and their layers over a network.</li>
+<li class="fragment appear">May be public or private.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgfe090c3">
+<h3 id="orgfe090c3">Container</h3>
+<ul>
+<li class="fragment appear">A runtime instance of an <span class="underline">image</span>.</li>
+<li class="fragment appear">Includes a filesystem, execution environment, and (usually) one running
+process.</li>
+<li class="fragment appear">May be stopped, started, copied, and interacted with.</li>
+
+</ul>
+
+</section>
+<section id="slide-org8132aa3">
+<h3 id="org8132aa3">Dockerfile</h3>
+<ul>
+<li class="fragment appear">A series of instructions starting from a base image and producing an <span class="underline">image</span>.</li>
+<li class="fragment appear">Each instruction produces a single layer with the final layer being the image
+itself.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgbd97993">
+<h3 id="orgbd97993">Tag</h3>
+<ul>
+<li class="fragment appear">A human-readable name assigned to a container or image.</li>
+<li class="fragment appear">Images may have multiple tags.</li>
+<li class="fragment appear">Tags typically contain version information and may distinguish variants of a
+given image.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf19a6d2">
+<h2 id="orgf19a6d2">Hands-On Exercises</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf499dae">
+<h2 id="orgf499dae">Container Orchestration</h2>
+<div class="outline-text-2" id="text-orgf499dae">
+</div>
+</section>
+<section id="slide-org7123534">
+<h3 id="org7123534">Orchestration Platforms</h3>
+<aside class="notes">
+<p>
+Why ECS over EKS (Managed k8s)?
+</p>
+<ul>
+<li>Cost - EKS adds an hourly charge per cluster.</li>
+<li>ELB-integration - Significantly more complicated on EKS</li>
+<li>EFS-integration - More complicated on EKS</li>
+
+</ul>
+
+<p>
+In a cloud environment, it&rsquo;s strongly recommended to use a managed platform
+rather than self-managing.
+</p>
+
+</aside>
+
+<div style="white-space:nowrap">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+
+<col  class="org-center" />
+
+<col  class="org-center" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-center"><b>On-Prem</b></th>
+<th scope="col" class="org-center"><b>AWS</b></th>
+<th scope="col" class="org-center"><b>OCI</b></th>
+<th scope="col" class="org-center"><b>Azure</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ECS</td>
+<td class="org-center">&#xa0;</td>
+<td class="org-center">🌟</td>
+<td class="org-center">&#xa0;</td>
+<td class="org-center">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ECS+Fargate</td>
+<td class="org-center">&#xa0;</td>
+<td class="org-center">✓</td>
+<td class="org-center">&#xa0;</td>
+<td class="org-center">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cloud-Managed k8s</td>
+<td class="org-center">&#xa0;</td>
+<td class="org-center">✓</td>
+<td class="org-center">🌟</td>
+<td class="org-center">🌟</td>
+</tr>
+
+<tr>
+<td class="org-left">Self-Managed k8s</td>
+<td class="org-center">🌟</td>
+<td class="org-center">✓</td>
+<td class="org-center">✓</td>
+<td class="org-center">✓</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<ul>
+<li>🌟 Recommended</li>
+<li>✓ Available</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc4bcd75">
+<h3 id="orgc4bcd75">Deployment Essentials</h3>
+<ul>
+<li class="fragment appear">Cluster Management</li>
+<li class="fragment appear">Image Registry</li>
+<li class="fragment appear">Container Placement &amp; Auto-Scaling</li>
+<li class="fragment appear">Container Lifecycle Management</li>
+<li class="fragment appear">Persistent Storage</li>
+<li class="fragment appear">Log Management</li>
+<li class="fragment appear">Secrets Management</li>
+<li class="fragment appear">Container Metrics</li>
+<li class="fragment appear">Load-Balancer Integration</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/search/search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'convex',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealMarkdown, RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>
