@@ -17,19 +17,34 @@
 
 
 <section>
-<section id="slide-orgd35a4af" data-background="#147BD1">
-<h2 id="orgd35a4af">An Introduction to Docker For Banner Admins</h2>
+<section id="slide-org7674061" data-background="#147BD1">
+<h2 id="org7674061">An Introduction to Docker For Banner Admins</h2>
 
-<div id="org5738803" class="figure">
+<div id="org4df8a71" class="figure">
 <p><img src="./images/sig-logo-1-sec-white.png" alt="sig-logo-1-sec-white.png" width="20%" height="20%" align="center" />
 </p>
 </div>
+</section>
+</section>
+<section>
+<section id="slide-org780eed1">
+<h2 id="org780eed1">About Me</h2>
+<p>
+Dan Boitnott
+</p>
+
+<ul>
+<li>Senior Consultant with SIG</li>
+<li>Focus on Containerization, Cloud Migration, and DevOps</li>
+<li>Running production workloads on Docker since 2015</li>
+
+</ul>
 
 </section>
 </section>
 <section>
-<section id="slide-org19a51e0">
-<h2 id="org19a51e0">Docker Overview</h2>
+<section id="slide-org3e2fb51">
+<h2 id="org3e2fb51">Docker Overview</h2>
 <aside class="notes">
 <ul>
 <li>This workshop will use &ldquo;Docker&rdquo; and &ldquo;Container&rdquo; somewhat interchangeably but
@@ -48,8 +63,8 @@ can deliver software quickly.&rdquo;
 </blockquote>
 
 </section>
-<section id="slide-org954885d">
-<h3 id="org954885d">Typical Software Stack</h3>
+<section id="slide-org78489c5">
+<h3 id="org78489c5">Typical Software Stack</h3>
 <aside class="notes">
 <ul>
 <li>Co-location can lead to conflict but dedicated servers lead to waste.</li>
@@ -61,14 +76,14 @@ can deliver software quickly.&rdquo;
 </aside>
 
 
-<div id="org8444dd9" class="figure">
+<div id="org4bfe50e" class="figure">
 <p><img src="./images/SoftwareStackTypical.svg" alt="SoftwareStackTypical.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
-<section id="slide-org5720be8">
-<h3 id="org5720be8">Docker Container</h3>
+<section id="slide-orgf4c65f3">
+<h3 id="orgf4c65f3">Docker Container</h3>
 <aside class="notes">
 <ul>
 <li>Containers bundle the entire stack down to the distribution and treat them as
@@ -81,14 +96,14 @@ a single unit.</li>
 </aside>
 
 
-<div id="orge168e67" class="figure">
+<div id="org4014b78" class="figure">
 <p><img src="./images/DockerContainerStack.svg" alt="DockerContainerStack.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
-<section id="slide-org12df592">
-<h3 id="org12df592">Deployment Architecture</h3>
+<section id="slide-orgb2fd284">
+<h3 id="orgb2fd284">Deployment Architecture</h3>
 <aside class="notes">
 <ul>
 <li>Containers can be added/removed/updated without regard to underlying hosts.</li>
@@ -100,14 +115,14 @@ a single unit.</li>
 </aside>
 
 
-<div id="orgf6c5754" class="figure">
+<div id="orgcbdb48d" class="figure">
 <p><img src="./images/DeploymentArch.svg" alt="DeploymentArch.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
-<section id="slide-org76d5387">
-<h3 id="org76d5387">Advantages of Containerization</h3>
+<section id="slide-org5c57ed1">
+<h3 id="org5c57ed1">Advantages of Containerization</h3>
 <aside class="notes">
 <ul>
 <li>Improved admin is the real cost savings. The big savings is in hours as much as compute.</li>
@@ -125,8 +140,8 @@ a single unit.</li>
 </ul>
 
 </section>
-<section id="slide-orgf47eaee">
-<h3 id="orgf47eaee">What Docker Is:</h3>
+<section id="slide-org7e461e3">
+<h3 id="org7e461e3">What Docker Is:</h3>
 <ul>
 <li class="fragment appear">Free and open-source</li>
 <li class="fragment appear">Mature and well documented</li>
@@ -135,8 +150,8 @@ a single unit.</li>
 </ul>
 
 </section>
-<section id="slide-org406b6d6">
-<h3 id="org406b6d6">What Docker Is Not:</h3>
+<section id="slide-org35643e8">
+<h3 id="org35643e8">What Docker Is Not:</h3>
 <ul>
 <li class="fragment appear"><span class="underline">Directly</span> supported by Ellucian</li>
 <li class="fragment appear">A solution to all<sup>*</sup> life&rsquo;s problems</li>
@@ -147,13 +162,13 @@ a single unit.</li>
 </section>
 </section>
 <section>
-<section id="slide-org1836305">
-<h2 id="org1836305">Terminology</h2>
-<div class="outline-text-2" id="text-org1836305">
+<section id="slide-org8ee46eb">
+<h2 id="org8ee46eb">Terminology</h2>
+<div class="outline-text-2" id="text-org8ee46eb">
 </div>
 </section>
-<section id="slide-orgd085279">
-<h3 id="orgd085279">Image</h3>
+<section id="slide-orgb237a45">
+<h3 id="orgb237a45">Image</h3>
 <ul>
 <li class="fragment appear">A filesystem containing the entire software stack for a given service.</li>
 <li class="fragment appear">Is unchanging and identified to by its hash value.</li>
@@ -164,8 +179,8 @@ a single unit.</li>
 </ul>
 
 </section>
-<section id="slide-orge038149">
-<h3 id="orge038149">Layer</h3>
+<section id="slide-orgef05ddc">
+<h3 id="orgef05ddc">Layer</h3>
 <ul>
 <li class="fragment appear">A set of changes to an underlying layer.</li>
 <li class="fragment appear">Produced by steps in the <span class="underline">Dockerfile</span>.</li>
@@ -174,8 +189,8 @@ a single unit.</li>
 </ul>
 
 </section>
-<section id="slide-org7c28c1c">
-<h3 id="org7c28c1c">Registry</h3>
+<section id="slide-orga2f9d89">
+<h3 id="orga2f9d89">Registry</h3>
 <ul>
 <li class="fragment appear">Provides images and their layers over a network.</li>
 <li class="fragment appear">May be public or private.</li>
@@ -183,8 +198,8 @@ a single unit.</li>
 </ul>
 
 </section>
-<section id="slide-orgfe090c3">
-<h3 id="orgfe090c3">Container</h3>
+<section id="slide-orgb2e31ff">
+<h3 id="orgb2e31ff">Container</h3>
 <ul>
 <li class="fragment appear">A runtime instance of an <span class="underline">image</span>.</li>
 <li class="fragment appear">Includes a filesystem, execution environment, and (usually) one running
@@ -194,8 +209,8 @@ process.</li>
 </ul>
 
 </section>
-<section id="slide-org8132aa3">
-<h3 id="org8132aa3">Dockerfile</h3>
+<section id="slide-org86ca475">
+<h3 id="org86ca475">Dockerfile</h3>
 <ul>
 <li class="fragment appear">A series of instructions starting from a base image and producing an <span class="underline">image</span>.</li>
 <li class="fragment appear">Each instruction produces a single layer with the final layer being the image
@@ -204,8 +219,8 @@ itself.</li>
 </ul>
 
 </section>
-<section id="slide-orgbd97993">
-<h3 id="orgbd97993">Tag</h3>
+<section id="slide-org2f8c70a">
+<h3 id="org2f8c70a">Tag</h3>
 <ul>
 <li class="fragment appear">A human-readable name assigned to a container or image.</li>
 <li class="fragment appear">Images may have multiple tags.</li>
@@ -217,19 +232,22 @@ given image.</li>
 </section>
 </section>
 <section>
-<section id="slide-orgf19a6d2">
-<h2 id="orgf19a6d2">Hands-On Exercises</h2>
+<section id="slide-orgc92fb76">
+<h2 id="orgc92fb76">Hands-On Exercises</h2>
+<p>
+<a href="http://workshop.sigconnect.biz">http://workshop.sigconnect.biz</a>
+</p>
 
 </section>
 </section>
 <section>
-<section id="slide-orgf499dae">
-<h2 id="orgf499dae">Container Orchestration</h2>
-<div class="outline-text-2" id="text-orgf499dae">
+<section id="slide-orgeb3bb79">
+<h2 id="orgeb3bb79">Container Orchestration</h2>
+<div class="outline-text-2" id="text-orgeb3bb79">
 </div>
 </section>
-<section id="slide-org7123534">
-<h3 id="org7123534">Orchestration Platforms</h3>
+<section id="slide-org9376e65">
+<h3 id="org9376e65">Orchestration Platforms</h3>
 <aside class="notes">
 <p>
 Why ECS over EKS (Managed k8s)?
@@ -315,8 +333,8 @@ rather than self-managing.
 </ul>
 
 </section>
-<section id="slide-orgc4bcd75">
-<h3 id="orgc4bcd75">Deployment Essentials</h3>
+<section id="slide-org7b30134">
+<h3 id="org7b30134">Deployment Essentials</h3>
 <ul>
 <li class="fragment appear">Cluster Management</li>
 <li class="fragment appear">Image Registry</li>
@@ -329,6 +347,22 @@ rather than self-managing.
 <li class="fragment appear">Load-Balancer Integration</li>
 
 </ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf6858bf">
+<h2 id="orgf6858bf">Banner 9 Deployment</h2>
+<div class="outline-text-2" id="text-orgf6858bf">
+</div>
+</section>
+<section id="slide-org6a6a57f">
+<h3 id="org6a6a57f">Banner 9 Application Lifecycle</h3>
+
+<div id="orgcbeed71" class="figure">
+<p><img src="./images/Banner9DeploymentLifecycle.svg" alt="Banner9DeploymentLifecycle.svg" class="org-svg" />
+</p>
+</div>
 </section>
 </section>
 </div>

@@ -16,6 +16,13 @@
 
 #+ATTR_HTML: :width 20% :height 20% :align center
 [[./images/sig-logo-1-sec-white.png]]
+* About Me
+
+Dan Boitnott
+
+- Senior Consultant with SIG
+- Focus on Containerization, Cloud Migration, and DevOps
+- Running production workloads on Docker since 2015
 
 * Docker Overview
 
@@ -136,6 +143,8 @@ can deliver software quickly."
 
 * Hands-On Exercises
 
+http://workshop.sigconnect.biz
+
 * Container Orchestration
 
 ** Orchestration Platforms
@@ -175,3 +184,9 @@ rather than self-managing.
 - Secrets Management
 - Container Metrics
 - Load-Balancer Integration
+
+* Banner 9 Deployment
+
+** Banner 9 Application Lifecycle
+
+[[./images/Banner9DeploymentLifecycle.svg]]
